@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/7f540904d6.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container"></div>
+    <div
+      class="fixed bottom-[40px] right-[20px] p-[30px] bg-gradient-to-br from-blue-500 to-red-500 rounded-full cursor-pointer"
+      id="chatWidget"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="2em"
+        width="2em"
+        viewBox="0 0 640 512"
+      >
+        <path
+          d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2 0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.3-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9l0 0 0 0-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"
+        />
+      </svg>
+    </div>
+    <!-- Chat Modal -->
+    <div
+      class="hidden opacity-1 fixed right-0 2xl:left-[550px] xl:left-[420px] inset-0 overflow-y-auto h-full w-full"
+      id="chatModal"
+    >
+      <div class="flex items-center justify-center h-full">
+        <div
+          class="bg-white rounded-b-md shadow-md w-[400px] xl:h-[550px] 2xl:h-[650px]"
+        >
+          <div
+            class="flex items-center p-4 h-[60px] rounded-t-md bg-blue-600 text-white justify-between"
+          >
+            <img src="default-avatar.png" width="40rem" class="rounded-full " />
+
+            <button type="button" class="close" id="closeModal">
+              <span aria-hidden="true"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    fill="rgba(255,255,255,1)"
+                    d="M11.9997 13.1714L16.9495 8.22168L18.3637 9.63589L11.9997 15.9999L5.63574 9.63589L7.04996 8.22168L11.9997 13.1714Z"></path></svg></span>
+            </button>
+          </div>
+<!--            <div class="text-right space-y-2 ml-auto" id="chat-log">-->
+<!--            </div>-->
+<!--            <div class="text-right space-y-2 mr-auto" id="chat-log2">-->
+<!--            </div>-->
+              <div class="flex flex-col mt-2 text-wrap space-y-2 items-end w-full h-[380px] overflow-y-auto" id="chat-log">
+<!--    <p class="p-4 mb-2 px-[15px] w-[fit-content] mr-2  max-w-[80%]  ml-auto py-2 bg-[#ece4e3] ">This is the content of the first paragraph hghtfthffft lihnukgyuyv yufftg</p>-->
+<!--    <p class="p-4 mb-2 px-[15px] w-[fit-content] ml-2 text-left overflow-wrap-break-word max-w-[80%]  mr-auto py-2 bg-[#ece4e3]">This is the content of the second paragraphhhhh. This is the content of the second paragraph and you are where exactly</p>-->
+</div>
+
+         <div class="p-4 ">
+
+            <i class="fa-solid fa-ellipsis fa-beat fa-2xl bg-[#ece4e3]" id="chatBubble"></i>
+         </div>
+          <div class="p-4 flex gap-4">
+            <textarea
+            type="text"
+              rows="1"
+              placeholder="Start typing..."
+              autofocus
+              id="sendTextarea"
+              class="bg-[#ece4e3] focus:outline-none w-full rounded-full px-[15px] py-[10px] overflow-hidden "
+            ></textarea>
+            <button id="sendButton" class="btn btn-primary bg-blue-600 rounded-full p-[15px] hidden"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M3 13.0001H9V11.0001H3V1.8457C3 1.56956 3.22386 1.3457 3.5 1.3457C3.58425 1.3457 3.66714 1.36699 3.74096 1.4076L22.2034 11.562C22.4454 11.695 22.5337 11.9991 22.4006 12.241C22.3549 12.3241 22.2865 12.3925 22.2034 12.4382L3.74096 22.5925C3.499 22.7256 3.19497 22.6374 3.06189 22.3954C3.02129 22.3216 3 22.2387 3 22.1544V13.0001Z" fill="rgba(255,255,255,1)"></path></svg></button>
+
+          </div>
+          <p class="text-center text-[12px] text-gray-400 -mt-3">Powered by Elota</p>
+        </div>
+      </div>
+    </div>
+    {{ room_name|json_script:"room-name" }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        chatDisplay=$('#chatBubble').hide();
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            if(data.uuid){
+                setCookie("userId", data.uuid, 500000);
+                console.log(data.uuid);
+            }else if(data.message) {
+                const uuid= getCookie("userId");
+
+
+                if(data.message_id == uuid) {
+                    var paragraph = document.createElement('p');
+                    paragraph.classList.add('mb-2', 'max-w-[80%]','bg-[#ece4e3]', 'text-left', 'ml-auto', 'p-4','break-all');
+                    paragraph.textContent = data.message + '\n';
+                    var myDiv = document.getElementById('chat-log');
+                    myDiv.appendChild(paragraph);
+                }else{
+                    var paragraph = document.createElement('p');
+                    paragraph.classList.add('mb-2', 'max-w-[80%]','bg-[#ece4e3]', 'text-left', 'mr-auto', 'p-4','break-all');
+                    paragraph.textContent = data.message + '\n';
+                    var myDiv = document.getElementById('chat-log');
+                    myDiv.appendChild(paragraph);
+                }
+            }else if(data.status === 'yes'){
+                const uuid= getCookie("userId");
+                status_id= data.status_id;
+                if(status_id != uuid){
+                    $('#chatBubble').show();
+                }else{
+                   $('#chatBubble').hide();
+                }
+            }else if(data.status === 'no'){
+                $('#chatBubble').hide();
+            }
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+
+        document.querySelector('#sendButton').onclick = function(e) {
+             var textarea = document.getElementById('sendTextarea');
+             var textareaValue = textarea.value;
+             console.log(textareaValue);
+            const message = textareaValue;
+            const uuid= getCookie("userId");
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'message_id': uuid
+            }));
+            chatSocket.send(JSON.stringify({
+                    'message': 'no',
+                    'status_id': uuid
+            }));
+            textarea.value = '';
+        };
+
+
+      document
+        .getElementById("chatWidget")
+        .addEventListener("click", function () {
+          // Hide the chat widget
+          this.style.opacity = "0";
+          this.style.pointerEvents = "none";
+
+          // Show the chat modal
+          document.getElementById("chatModal").classList.remove("hidden");
+          document.getElementById("chatModal").classList.add("opacity-1");
+        });
+
+      document
+        .getElementById("closeModal")
+        .addEventListener("click", function () {
+          // Show the chat widget again
+          document.getElementById("chatWidget").style.opacity = "1";
+          document.getElementById("chatWidget").style.pointerEvents = "auto";
+
+          // Hide the chat modal
+          document.getElementById("chatModal").classList.remove("opacity-1");
+          document.getElementById("chatModal").classList.add("hidden");
+        });
+
+            $("#sendTextarea").on('keyup', function () {
+            if (!$.trim($("#sendTextarea").val())) {
+               $('#sendTextarea').css('width', '100%');
+               $('#sendButton').hide();
+
+                const uuid= getCookie("userId");
+                chatSocket.send(JSON.stringify({
+                    'message': 'no',
+                    'status_id': uuid
+                }));
+            }else{
+               $('#sendTextarea').css('width', '81%');
+               $('#sendButton').show();
+
+                const uuid= getCookie("userId");
+                chatSocket.send(JSON.stringify({
+                    'message': 'yes',
+                    'status_id': uuid
+                }));
+
+            }
+            });
+            function setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                let expires = "expires="+d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+            function getCookie(cname) {
+                let name = cname + "=";
+                let ca = document.cookie.split(';');
+                for(let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+      // const textarea = document.getElementById('sendTextarea');
+      //   textarea.addEventListener('input', function () {
+      //       this.style.height = 'auto';
+      //       this.style.height = (this.scrollHeight) + 'px';
+      //   });
+
+    </script>
+  <style>
+  /*.border {*/
+  /*  border-width: 1px;*/
+  /*  border-color: #e5e7eb;*/
+  /*}*/
+</style>
+
+  </body>
+</html>
